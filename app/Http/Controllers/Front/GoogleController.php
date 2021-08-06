@@ -49,7 +49,8 @@ class GoogleController extends Controller{
         $this->arr_view_data['user'] = $userID;
         $obj_user  = User::where('id',$userID)->first();
         $this->arr_view_data['userData']  = $obj_user;       
-        //return  $this->module_view_folder.'.google-ads.create';      
+        //return  $this->module_view_folder.'.google-ads.create';  
+        //$this->arr_view_data['nextTab'] = "ACCOUNT";
        return view($this->module_view_folder.'.google-ads.create',$this->arr_view_data);
     }
 
@@ -73,7 +74,8 @@ class GoogleController extends Controller{
 
        if(count($arrResponse['data'])>0){
            $campaignId = $arrResponse['data']['campaignId'];
-           $request->session()->put('campaignId',$campaignId);
+              $request->session()->put('campaignId',$campaignId);
+              $this->arr_view_data['nextTab'] = "GROUP";
        }
        $this->arr_view_data['apiResponse'] = "true";
        if($arrResponse['status']=="error"){
@@ -110,7 +112,9 @@ class GoogleController extends Controller{
        $groupId = 0;
        if(isset($arrResponse['data']) && count($arrResponse['data'])>0){
            $groupId = $arrResponse['data']['adGroupId'];
-           $request->session()->put('adGroupId',$groupId);
+           //$request->session()->put('adGroupId',$groupId);
+              $request->session()->put('adGroupId',$groupId);
+              $this->arr_view_data['nextTab'] = "KEYWORD";
        }
 
        $this->arr_view_data['apiResponse'] = "true";
@@ -142,6 +146,9 @@ class GoogleController extends Controller{
        $this->arr_view_data['apiResponse'] = "true";
        if(isset($arrResponse['status']) && $arrResponse['status']=="error"){
             $this->arr_view_data['apiResponse'] = "false";
+       }else{
+            $this->arr_view_data['nextTab'] = "AD-CREATE";
+            $request->session()->put('adKeywordId',rand());
        }
 
        return view($this->module_view_folder.'.google-ads.create',$this->arr_view_data);
@@ -149,10 +156,46 @@ class GoogleController extends Controller{
     public function createSearchAd(Request $request){
         $userID = 0;
         $userID = Session::get('LoggedUser');
-        $this->arr_view_data['user'] = $userID;
-        $obj_user  = User::where('id',$userID)->first();
-        $this->arr_view_data['userData']  = $obj_user;       
-        //return  $this->module_view_folder.'.google-ads.create';      
+        $this->arr_view_data['user'] = $userID;  
+
+        //$var > 2 ? echo "greater" : echo ""
+
+
+
+        $parameters = array("customerId"=>$request->input('customerId'),
+                                "adGroupId"=>$request->input('adGroupId'),
+                                "mainHeadline"=>$request->input('mainHeadline'),
+                                "headline1"=>$request->input('headline1'),
+                                "headline2"=>$request->input('headline2'),
+                                "description1"=>$request->input('description1'),
+                                "description2"=>$request->input('description2'),
+                                "finalUrlPath1"=>$request->input('finalUrlPath1'),
+                                "finalUrlPath2"=>$request->input('finalUrlPath2'),
+                                "finalUrl"=>$request->input('finalUrl')
+                        );
+
+        //dd($parameters);
+       //$arrResponse = createAdsGroup('',$parameters);
+       $arrResponse = runGoogleAdsAPI("CREATE_SEARCH_AD",$parameters);
+
+        $arrResponse = json_decode($arrResponse,true);
+        //dd($arrResponse);
+       $adsId = 0;
+       if(isset($arrResponse['data']) && count($arrResponse['data'])>0){
+           $adsId = $arrResponse['data']['adsId'];
+           $request->session()->put('searchAdId',$adsId); 
+           if($adsId){
+                $request->session()->put('adKeywordId',0);
+                $request->session()->put('adGroupId',0);
+                $request->session()->put('campaignId',0);
+           }          
+       }
+
+       $this->arr_view_data['apiResponse'] = "true";
+       if($arrResponse['status']=="error"){
+            $this->arr_view_data['apiResponse'] = "false";
+       }
+
        return view($this->module_view_folder.'.google-ads.create',$this->arr_view_data);
     }
 
@@ -184,6 +227,8 @@ class GoogleController extends Controller{
        if(isset($arrResponse['data']) && count($arrResponse['data'])>0){
            $adCustomerId = $arrResponse['data']['customerId'];
            $request->session()->put('adCustomerId',$adCustomerId);
+           $this->arr_view_data['nextTab'] = "CRAETE-CAMPAIGN";
+
        }
 
        $this->arr_view_data['apiResponse'] = "true";
