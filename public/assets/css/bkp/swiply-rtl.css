@@ -1,0 +1,51 @@
+body{    font-family: 'Almarai', sans-serif;}
+.logo-section{float: right;}
+.banner-img-section{left: 0; right: auto;}
+.banner-content-content{text-align: right;}
+.login-signup-btns{float: left;}
+.login-signup-btns li{margin-left: 0; margin-right: 10px;}
+.copyright-bx-txt{float: right;}
+.copyright-bx-social { float: left;}
+.copyright-bx-social li:last-child { padding-left: 0;}
+
+.login-signup-btns li a{font-family: 'Almarai', sans-serif; line-height: 35px; }
+.unimark-services-head{font-family: 'Almarai', sans-serif; font-weight: 600;}
+.unimark-services-txt{font-family: 'Almarai', sans-serif; }
+.form-group{text-align: right;}
+.check-box {text-align: right;}
+[type="checkbox"].filled-in:checked + label:after{right: 0;}
+[type="checkbox"].filled-in:checked + label:before{right: 10px;}
+[type="checkbox"] + label{padding-left: 6px;}
+.breadcurmb-section-head{float: right;}
+.breadcurmb-li-section { float: left;}
+.number-flag-id{left: auto; right: 10px;}
+.mobile-number-section input.form-control { padding: 6px 96px .375rem 15px;}
+.select-drop-icon{right: auto; left: 15px;}
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {     left: auto; right: -9999px;}
+.login-man-img img { transform: rotateY(-180deg);}
+.login-man-img {   bottom: 0; left: auto; right: 0;}
+.swiper-slide-active .banner-content-big-txt, .swiper-slide-active .spotlight-txt, .swiper-slide-active .swiper-slide-active .borderd-txt-section{animation: 1s fadeInRightBig;}
+.btn-more-services{font-family: 'Almarai', sans-serif;}
+.setup-step-content { margin-left: 0; margin-right: 92px; text-align: right;}
+.trusted-by-world-main{direction: ltr !important;}
+.number-flag-id img { width: 30px; margin-right: 0; margin-left: 3px;}
+
+
+
+
+
+
+
+
+@media (max-width:767px) { 
+.copyright-bx-txt { float: none;}
+.copyright-bx-social {float: none;}
+.services-box-img{float: right;}
+.for-responsive-alignment { margin-left: 0; margin-right: 115px;}
+.txt-bye-now{float: right;}
+.arrow-bye-now { float: left;}
+.services-box-head{text-align: right;}
+.arrow-bye-now { float: left; transform: rotate(-180deg); margin-top: -2px;}
+
+
+}

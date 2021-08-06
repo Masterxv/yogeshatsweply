@@ -1,0 +1,37 @@
+Raw Data =>
+User -> 3 Types 
+
+Admin 
+Normal -> Need to upgrade account -> after upgrade it will switched to multi business
+Business User -> complete Access of all modules  
+
+
+Process 
+1. Register
+2. Add Wallet balance 
+3. Create Campaign 
+4. Update Campaign
+5. Add Campaign Statistics
+6. View Campaign
+7. Show Campaign report with statistics
+
+
+2.1. Online payment --> Success --> Wallet updated
+2.2. Manual Payment Verification request to admin
+2.2.1.  Place request --> Admin Will Approved --> Customer Wallet updated 
+
+
+3.1 Create campaign 
+-------> If Wallet Have balance 
+---> Directly deduct amount from wallet 
+---> Update Campaign & payment status 
+---> Add Entry In wallet transactions
+---> Update Customer wallet balance
+
+-------> If wallet not sufficient Balance 
+---> Save campaign in Draft with payment status 'PENDING'
+---> Redirect to Payment Page with required amount to procced campaign
+---> User Can follow 2.1 Steps  To payment 
+---> After Successfully update wallet amount - user need to go campaign page and paid campaign amount by clicking on paid button
+---> If Wallet amount satisfy requirement then amount will be deducted from wallet
+---> Spacific campaign status update to paid - In that case admin can procced further

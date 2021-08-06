@@ -1,0 +1,16 @@
+.avatar-content i{font-size: 23px;}
+/*.avatar-content .fal.fa-car{ color: #ff7171;} */
+/*.avatar-content .fal.fa-building{color: #35ae6d;}*/
+.avatar-content .fal.fa-file-signature { color: #3da3b1;}
+.avatar-content .fal.fa-sack-dollar{color: #7367F0 }
+.avatar-content .fal.fa-wallet{color: #35ae6d}
+.card-height-manage .card{height: 450px;}
+.activity-timeline.timeline-left li {  margin-bottom: 15px;}
+
+
+.card.recent-booking-box h3 a { color: #7367f0; font-size: 13px; font-weight: 400; text-decoration: underline;}
+
+.six-box-section .avatar{background: rgba(241, 230, 15, 0.4)}
+.six-box-section .avatar-content i {  color: #4b4b4b;}
+
+.six-box-section .avatar.yellow-bck {    background: rgba(241, 230, 15, 0.4);    border: 1px solid #f1e60f;}

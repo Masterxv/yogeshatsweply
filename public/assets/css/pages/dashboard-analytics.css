@@ -1,0 +1,91 @@
+/*========================================================
+        DARK LAYOUT
+=========================================================*/
+#dashboard-analytics .img-left {
+  width : 200px;
+  position : absolute;
+  top : 0;
+  left : 0;
+}
+
+#dashboard-analytics .img-right {
+  width : 175px;
+  position : absolute;
+  top : 0;
+  right : 0;
+}
+
+#dashboard-analytics .bg-analytics {
+  background : -webkit-linear-gradient(332deg, #ffffff, rgba(255, 255, 255, 1)) !important;
+  background :         linear-gradient(118deg, #ffffff, rgba(255, 255, 255, 1)) !important;
+  color: #000000 !important;
+}
+
+#dashboard-analytics .bg-analytics .text-white{
+  color: #000000 !important;
+  font-size: 25px;
+}
+
+#dashboard-analytics .bg-analytics .avatar {
+  margin-bottom : 2rem;
+}
+
+#dashboard-analytics table tr th:first-child, #dashboard-analytics table tr td:first-child {
+  padding-left : 2rem;
+}
+
+#dashboard-analytics table tr th:last-child, #dashboard-analytics table tr td:last-child {
+  padding-right : 2rem;
+}
+
+#dashboard-analytics table td {
+  padding : 0.75rem;white-space: nowrap;
+  height: 50px;
+}
+#dashboard-analytics table th {
+  height: 50px;vertical-align: middle;
+}
+
+@media (max-width:1199px) {
+  #dashboard-analytics .row{margin: 0 !important;}
+  /* #dashboard-analytics .col-sm-12,#dashboard-analytics .col-12{padding: 0 !important;} */
+}
+
+
+@media only screen and (max-width: 576px) {
+  #dashboard-analytics .img-left, #dashboard-analytics .img-right {
+    width : 140px;display: none;
+  }
+  #dashboard-analytics .bg-analytics .avatar {
+    margin-bottom: 1.2rem;
+    display: none;
+  }
+
+  #dashboard-analytics .dash-name-section p{margin-bottom: 0;}
+  #dashboard-analytics .bg-analytics .text-white{font-size: 22px;}
+
+  .card{height: auto !important;}
+  .wallet-sub-bx .sar-amt-img img {
+    max-width: 80px;
+    height: 80px;
+  }
+  .wallet-balance-bx .wallet-sub-bx{height: auto;}
+  .wallet-balance-bx .btn-primary{margin-top: 7px !important;padding: 13px 0;}
+  .wallet-icon-bx{float: left;margin: 14px;}
+  .wallet-amt {margin-top: 7px;}
+  .sar-amt-img {
+    float: left;
+    position: absolute;
+    top: 12px;
+    left: 25px;
+  }
+  .sar-amt-main {
+    text-align: left;
+    margin-left: 80px;
+  }
+  .card.wallet-bx .wallet-balance-bx .wallet-sub-bx {
+    height: auto;
+    position: relative;
+  }
+  .pr-5,.pl-5{padding-right: 10px !important;padding-left: 10px !important;}
+}
