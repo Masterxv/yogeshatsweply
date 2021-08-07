@@ -61,10 +61,22 @@ class GoogleController extends Controller{
         $arrResponse['message'] = "Invalid Request";
         $arrResponse['status'] = 'error';
         $arrResponse['data'] = array(); 
+
+        $startDate = $endDate = date('Ymd');
+
+        if($request->input('startDate')){
+            $dateArr = explode('/',$request->input('startDate'));
+            $startDate = $dateArr[2].''.$dateArr[1].''.$dateArr[0];
+        }
+        if($request->input('endDate')){
+            $dateArr = explode('/',$request->input('endDate'));
+            $endDate = $dateArr[2].''.$dateArr[1].''.$dateArr[0];
+        }
+
         $parameters = array('customerId' => $request->input('customerId'),
                             'userEmail' => 'abc@mail.com',
-                            'startDate' => $request->input('startDate'),
-                            'endDate' => $request->input('endDate'),
+                            'startDate' => $startDate,
+                            'endDate' => $endDate,
                             'campaignName' => $request->input('campaignName'),
                             'budget'=>$request->input('budget')
                         );
@@ -131,24 +143,25 @@ class GoogleController extends Controller{
         $this->arr_view_data['user'] = $userID;
         $obj_user  = User::where('id',$userID)->first();
         $this->arr_view_data['userData']  = $obj_user;       
-        //return  $this->module_view_folder.'.google-ads.create';  
+        $keywordMatchTypeArr  = array();
+        $keywordMatchTypeArr = array_filter($request->input('keywordMatchType'), 'strlen' );
 
-        $parameters = array('customerId' => $request->input('customerId'),
-                            'adGroupId' => $request->input('adGroupId'),
-                            'keywordText' => $request->input('keywordText'),
-                            'keywordMatchType' => $request->input('keywordMatchType'),
-                        );
-       //$arrResponse = addAdsKeyword('',$parameters);
-       $arrResponse = runGoogleAdsAPI("ADD_GROUP_KEYWORD",$parameters);
-       //dd($arrResponse);
-       $arrResponse = json_decode($arrResponse,true);
+        foreach($request->input('keywordText') as $key=>$keyword){
+            $parameters = array('customerId' => $request->input('customerId'),
+                                'adGroupId' => $request->input('adGroupId'),
+                                'keywordText' => $keyword,
+                                'keywordMatchType' => $keywordMatchTypeArr[$key],
+                            );
+           $arrResponse = runGoogleAdsAPI("ADD_GROUP_KEYWORD",$parameters);
+           $arrResponse = json_decode($arrResponse,true);
+       }
 
        $this->arr_view_data['apiResponse'] = "true";
        if(isset($arrResponse['status']) && $arrResponse['status']=="error"){
             $this->arr_view_data['apiResponse'] = "false";
        }else{
             $this->arr_view_data['nextTab'] = "AD-CREATE";
-            $request->session()->put('adKeywordId',rand());
+            $request->session()->put('adKeywordId',date('Ymd'));
        }
 
        return view($this->module_view_folder.'.google-ads.create',$this->arr_view_data);
@@ -167,6 +180,7 @@ class GoogleController extends Controller{
                                 "mainHeadline"=>$request->input('mainHeadline'),
                                 "headline1"=>$request->input('headline1'),
                                 "headline2"=>$request->input('headline2'),
+                                "headline3"=>$request->input('headline3'),
                                 "description1"=>$request->input('description1'),
                                 "description2"=>$request->input('description2'),
                                 "finalUrlPath1"=>$request->input('finalUrlPath1'),
@@ -184,10 +198,15 @@ class GoogleController extends Controller{
        if(isset($arrResponse['data']) && count($arrResponse['data'])>0){
            $adsId = $arrResponse['data']['adsId'];
            $request->session()->put('searchAdId',$adsId); 
+           $request->session()->put('searchAdLastId',$adsId); 
            if($adsId){
                 $request->session()->put('adKeywordId',0);
                 $request->session()->put('adGroupId',0);
                 $request->session()->put('campaignId',0);
+                $request->session()->put('searchAdId',0); 
+                $request->session()->put('keywordSuggestionArr',array()); 
+
+
            }          
        }
 
@@ -202,11 +221,38 @@ class GoogleController extends Controller{
 
     public function getKeywordIdea(Request $request){
         $userID = 0;
-        $userID = Session::get('LoggedUser');
-        $this->arr_view_data['user'] = $userID;
-        $obj_user  = User::where('id',$userID)->first();
-        $this->arr_view_data['userData']  = $obj_user;       
-        //return  $this->module_view_folder.'.google-ads.create';      
+
+        $parameters = array("keywords"=>$request->input('keywords'),
+                            "pageUrl"=>$request->input('pageUrl'),
+                            "languageId"=>$request->input('languageId'),
+                            "customerId"=>$request->input('customerId'),
+                            "locationIds"=>$request->input('locationIds')
+                        );
+
+            $parameters['keywords'] = array();
+            foreach($request->input('keywords') as $key) {
+                if($key != ''){
+                    $parameters['keywords'][] = $key;
+                }
+            }
+            if($parameters['pageUrl']==""){
+                $parameters['pageUrl'] = "";
+            }
+            
+
+        //dd($parameters);
+       //$arrResponse = createAdsGroup('',$parameters);
+       $arrResponse = runGoogleAdsAPI("GET_KEYWORD_IDEAS",http_build_query($parameters));
+
+       $arrResponse = json_decode($arrResponse,true);
+
+        $this->arr_view_data['keywordSuggestionArr'] = array();
+
+       if($arrResponse['status']=="success"){
+            $this->arr_view_data['keywordSuggestionArr'] = $arrResponse['data'];
+            $request->session()->put('keywordSuggestionArr',$arrResponse['data']); 
+       }
+
        return view($this->module_view_folder.'.google-ads.create',$this->arr_view_data);
     }
     public function createGoogleAccount(Request $request){

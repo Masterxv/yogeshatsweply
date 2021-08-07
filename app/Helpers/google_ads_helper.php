@@ -10,8 +10,8 @@ function runGoogleAdsAPI($action="",$parameters=array()){
                       "CREATE_GROUP"=>"BasicOperations/AddAdGroups.php",
                       "ADD_GROUP_KEYWORD"=>"BasicOperations/AddKeywords.php",
                       "GET_CAMPAIGN_LIST"=>"BasicOperations/GetCampaigns-demo.php",
-                      "GET_KEYWORD_IDEAS"=>"BasicOperations/AddCampaigns.php",
-                      "CREATE_SEARCH_AD"=>"BasicOperations\AddResponsiveSearchAd.php"
+                      "GET_KEYWORD_IDEAS"=>"Planning/GenerateKeywordIdeas.php",
+                      "CREATE_SEARCH_AD"=>"BasicOperations/AddResponsiveSearchAd.php"
                      );
 
       $actionUrl = $url = "";

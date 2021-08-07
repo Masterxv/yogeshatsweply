@@ -123,7 +123,7 @@
                                             <div class="form-group">
                                                 <input type="hidden" id="managerCustomerId" name="managerCustomerId" value="1333536499" />
 
-                                                <input type="text" placeholder="Enter Customer/Account Name" class="form-control" id="customerName" name="customerName" />
+                                                <input type="text" placeholder="Enter Customer/Account Name" class="form-control" id="customerName" name="customerName" required />
                                             </div>
                                             <div class="clearfix"></div>
                                             <div class="info-main-header">
@@ -160,24 +160,26 @@
                                         <div class="col-sm-3 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <label>Campaign Name</label>
-                                                <input type="text" name="campaignName" class="form-control" />
+                                                <input type="text" name="campaignName" class="form-control"  required />
                                             </div>
                                         </div>
                                         <div class="col-sm-3 col-md-3 col-lg-3">
                                               <div class="form-group">
                                                <label>Start Date</label>
-                                               <input type="text" name="startDate" class="form-control" placeholder="YYYYMMDD" />
+                                               <input type="text" id="start_date" name="startDate" class="form-control datepicker" placeholder="dd/mm/yyyy" />
                                              </div>
                                          </div>
+                                        <!-- <input id="start_date" name="start_date" placeholder="Select Pickup Date" type='text' class="form-control datepicker" autocomplete="off" /> -->
+
                                          <div class="col-sm-3 col-md-3 col-lg-3">
                                              <div class="form-group">
                                                <label>End Date</label>
-                                               <input type="text" name="endDate" class="form-control" placeholder="YYYYMMDD" />
+                                               <input type="text" id="end_date" name="endDate" class="form-control datepicker" placeholder="dd/mm/yyyy" />
                                              </div>
                                          </div>
                                          <div class="col-sm-3 col-md-3 col-lg-3">
                                              <div class="form-group">
-                                               <label>Budget</label>
+                                               <label>Budget/Day</label>
                                                <input type="text" name="budget" class="form-control" />
                                              </div>
                                         </div>
@@ -200,7 +202,7 @@
                                         <div class="col-sm-3 col-md-3 col-lg-3">
                                              <div class="form-group">
                                                <label>Ad Group Name</label>
-                                               <input type="text" name="adsGroupName" class="form-control" />
+                                               <input type="text" name="adsGroupName" class="form-control" required />
                                              </div>
                                         </div>
                                         <div class="col-sm-3 col-md-3 col-lg-3">
@@ -226,7 +228,7 @@
 
                             <div class="tab-pane <?php echo e($keywordSec); ?>" id="keywords-sec" role="tabpanel" aria-labelledby="messages-tab-justified">
                                  <h2 style="margin: 0 0 30px 0;display: block;float: none;">Add Keywords to Ad Group</h2><br/>
-                                <form method="post" action="<?php echo e(url('/')); ?>/user/create-adkeywords">
+                                <!-- <form method="post" action="<?php echo e(url('/')); ?>/user/create-adkeywords">
                                     <?php echo csrf_field(); ?>
                                     <input type="hidden" name="customerId"  value="<?php echo $adCustomerId; ?>" />
                                     <input type="hidden" name="adGroupId"  value="<?php echo $adGroupId; ?>" />
@@ -235,17 +237,16 @@
                                         <div class="col-sm-3 col-md-3 col-lg-3">
                                              <div class="form-group">
                                                <label>Keyword</label>
-                                               <input type="text" name="keywordText" class="form-control" />
+                                               <input type="text" name="keywordText" class="form-control" required />
                                              </div>
                                          </div>
                                         <div class="col-sm-3 col-md-3 col-lg-3">
                                              <div class="form-group">
                                                <label>Keyword Match Type</label>
                                                <select class="form-control" name="keywordMatchType">
-                                                    <option value="EXACT">Select Keyword Match</option>
+                                                    <option value="BROAD" selected="selected">BROAD</option>
                                                     <option value="EXACT">EXACT</option>
                                                     <option value="PHRASE">PHRASE</option>
-                                                    <option value="BROAD">BROAD</option>
                                                </select>
                                              </div>
                                         </div>
@@ -253,7 +254,89 @@
                                      <div class="form-group">
                                        <input type="submit" name="submit"  value="Add Ad Keyword" class="btn btn-primary" />
                                      </div>
-                                </form>
+                                </form> -->
+
+
+        <form action="<?php echo e(url('/')); ?>/user/get-keyword-ideas" method="post" name="frm">  
+            <?php echo csrf_field(); ?>
+            <div class="form-group row">
+                <label for="customerId" class="col-sm-2 col-form-label">Keywords</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control"  id="keywords" name="keywords[]"  placeholder="Enter keyword" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="customerId" class="col-sm-2 col-form-label">URL</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="pageUrl" name="pageUrl"  placeholder="Enter pageUrl" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <input type="submit" class="btn btn-primary" value="Generate Keyword Ideas" />
+                    <input type="hidden" name="opt" value="GenerateKeywordIdeas">
+                    <input type="hidden" name="languageId" value="1019">
+                    <input type="hidden"  id="customerId" name="customerId"  value="<?php echo e($adCustomerId); ?>">
+                    <input type="hidden" name="locationIds[]" value="1007788"><!-- Pune -->
+                    <input type="hidden" name="locationIds[]" value="2682"> <!-- SA -->
+                    <input type="hidden" name="locationIds[]" value="21152"><!-- US -->
+                </div>
+            </div>
+        </form>
+
+        <?php
+        $keywordSuggestionArr = array();
+
+        if(Session::has('keywordSuggestionArr')){
+            $keywordSuggestionArr = Session::get('keywordSuggestionArr');
+        }
+        //print_r($keywordSuggestionArr)
+
+        if(count($keywordSuggestionArr)>0){
+        ?>
+
+        <form method="post" action="<?php echo e(url('/')); ?>/user/create-adkeywords" id="keywordFrm">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" name="customerId"  value="<?php echo $adCustomerId; ?>" />
+            <input type="hidden" name="adGroupId"  value="<?php echo $adGroupId; ?>" />
+                <div class="form-group">
+                   <button  class="btn btn-primary" id="addKeywords" type="submit">Add Ad Keyword</button>
+                 </div>
+            <table class="table b-table data-table dataTable no-footer">
+                <tr>
+                    <th><input type="checkbox" name="checkAll" id="check-all" /></th>
+                    <th>Sr.No.</th>
+                    <th>Keyword</th>
+                    <th>Avg Monthly Searches</th>
+                    <th>Competition</th>
+                    <th>Keyword Match Type <br/> <small>Match types help control which searches can trigger your ads<br/>keyword = Broad match "keyword" = Phrase match [keyword] = Exact match</small></th>
+                </tr>
+                <tbody>
+                <?php 
+
+                $competitionArr = array("0"=>"UNSPECIFIED","1"=>"UNKNOWN","2"=>"LOW","3"=>"MEDIUM","4"=>"HIGH");
+                    $i=0;
+                    foreach($keywordSuggestionArr as $D){
+                        $i++;
+                        echo '<tr>
+                            <td><input type="checkbox" name="keywordText[]" value="'.$D['keyword'].'" class="keyword-checkbox" /></td>
+                            <td>'.$i.'</td>
+                            <td>'.$D['keyword'].'</td>
+                            <td>'.$D['AvgMonthlySearches'].'</td>
+                            <td>'.$competitionArr[$D['competition']].'</td>
+                            <td><select class="form-control" name="keywordMatchType[]">
+                                <option value="" selected="selected">Select Match Type</option>
+                                <option value="BROAD" >BROAD</option>
+                                <option value="EXACT">EXACT</option>
+                                <option value="PHRASE">PHRASE</option>
+                            </select></td>
+                        </tr>';
+                    }?>
+                </tbody>
+            </table>
+            <?php } ?>
+        </form>
 
                             </div> 
                             <div class="tab-pane <?php echo e($adsSec); ?>" id="searchad-sec" role="tabpanel" aria-labelledby="messages-tab-justified">
@@ -302,32 +385,38 @@
                                                 <div class="col-md-12">
                                                      <div class="form-group">
                                                        <label>Main Headline</label>
-                                                       <input type="text" name="mainHeadline" class="form-control" maxlength="30" />
+                                                       <input type="text" name="mainHeadline" class="form-control" maxlength="30" required />
                                                      </div>
                                                  </div>
                                                  <div class="col-md-12">
                                                      <div class="form-group">
                                                        <label>Headline1</label>
-                                                       <input type="text" name="headline1" class="form-control" maxlength="30" />
+                                                       <input type="text" name="headline1" class="form-control" maxlength="30" required />
                                                      </div>
                                                  </div>
                                                   <div class="col-md-12">
                                                      <div class="form-group">
                                                        <label>Headline2</label>
-                                                       <input type="text" name="headline2" class="form-control"  maxlength="30" />
+                                                       <input type="text" name="headline2" class="form-control"  maxlength="30" required />
+                                                     </div>
+                                                 </div>
+                                                 <div class="col-md-12">
+                                                     <div class="form-group">
+                                                       <label>Headline3</label>
+                                                       <input type="text" name="headline3" class="form-control"  maxlength="30"  />
                                                      </div>
                                                  </div>
 
                                                  <div class="col-md-12">
                                                      <div class="form-group">
                                                        <label>Description1</label>
-                                                       <textarea name="description1" class="form-control"  maxlength="90" ></textarea>
+                                                       <textarea name="description1" class="form-control"  maxlength="90" required></textarea>
                                                      </div>
                                                  </div>
                                                  <div class="col-md-12">
                                                      <div class="form-group">
                                                        <label>Description2</label>
-                                                       <textarea name="description2" class="form-control"  maxlength="90" ></textarea>
+                                                       <textarea name="description2" class="form-control"  maxlength="90" required ></textarea>
                                                      </div>
                                                  </div>
 
@@ -358,6 +447,11 @@
                         </div>
                     </div>
 
+                    <?php  
+                    //if(isset($_REQUEST['debug'])){
+                    echo $adCustomerId.'-customer/<br/>'.$adCampaignId.'-campaign/<br/>'.$adGroupId.'-group/<br/>'.$adKeywordId.'-keyword/<br/>'.$searchAdId.'-ads/  '; 
+                    //} ?>
+
             </div>          
         </div>
     </div>
@@ -381,6 +475,40 @@
         } 
 
         $(document).ready(function(){
+
+            $("#check-all").on("click", function() {
+              var all = $(this);
+
+              if($(this).is(':checked')==true){
+                  $('.keyword-checkbox').each(function() {
+                       $(this).prop("checked", all.prop("checked"));
+                  });
+              }
+              if($(this).is(':checked')==false){
+                              //alert($(this).is(':checked'));
+
+                $('.keyword-checkbox').each(function() {
+                     $(this).prop('checked',false);
+                });
+              }
+            });
+
+            $('#addKeywords').click(function(e){
+                alert('szdada');
+
+            });
+
+
+            $(".keyword-checkbox").change(function() {
+                if(this.checked) {
+                    $('#addKeywords').removeAttr('disabled');
+                }
+            });
+
+
+            $('input').each(function(){
+                $(this).attr('autocomplete','off');
+            });
             $('textarea[name="description1"]').on("keyup change blur",function(){
                 $('.googleads-desc-section p').text($(this).val());
             });
@@ -421,6 +549,40 @@
         });
 
 
+        $(function() {
+            $( ".datepicker" ).datepicker({
+                todayHighlight: true,
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                startDate: new Date()
+            });
+        });
+
+
+        $('#end_date,#start_date').change(function(){
+                var start = $('#start_date').val();
+                var end = $('#end_date').val();
+                start = start.split("/");
+                end = end.split("/");
+
+                var startDay = new Date(start[2]+'-'+start[1]+'-'+(start[0]-1));
+                var endDay = new Date(end[2]+'-'+end[1]+'-'+end[0]);
+                var diff = new Date(endDay - startDay);
+                var days = diff/1000/60/60/24;
+                days = days.toFixed();
+                $('#end_date').parents().find('.err-msg').remove();
+                $('.date-err-msg').remove();
+                if(days>0 && Math.sign(days)===1){
+                    $('#end_date').parents().find('.err-msg').remove();
+                }else{
+                    if($('#end_date').val()){
+                        $('#end_date').parent().append('<label style="bottom: -40px;color:red;" class="date-err-msg" >End date should be greater than start date </label>');
+                    }
+                }
+           });
+
+
+
         });
 
         function websiteFocus(){
@@ -434,5 +596,8 @@
             return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
     }
     </script>
+
+    <link rel="stylesheet" type="text/css" href="<?php echo e(url('/')); ?>/public/assets/css/bootstrap-datepicker.min.css">
+    <script src="<?php echo e(url('/')); ?>/public/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('front.layout.dashboard-master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sweply\resources\views/front/campaign/google-ads/create.blade.php ENDPATH**/ ?>
