@@ -21,7 +21,7 @@
     <div class="content-wrapper">
         <div class="preview-ad-section ad-prive-details-bx-main google-preview-main">
             <div class="breadcrem-section">
-                <h2><i class="fa fa-google" title="google"></i>Google Ad Details</h2>
+                <h2><i class="fa fa-google" style="color:black;" title="google"></i>Google Ad Details</h2>
                 <div class="brea-bx">
                     <ul>
                         <li><a href="{{url('/')}}/user/dashboard">Home <i class="fal fa-angle-right"></i></a></li>                        
@@ -179,7 +179,7 @@
                                          </div>
                                          <div class="col-sm-3 col-md-3 col-lg-3">
                                              <div class="form-group">
-                                               <label>Budget/Day</label>
+                                               <label>Budget/Day (SAR)</label>
                                                <input type="text" name="budget" class="form-control" />
                                              </div>
                                         </div>
@@ -207,8 +207,8 @@
                                         </div>
                                         <div class="col-sm-3 col-md-3 col-lg-3">
                                              <div class="form-group">
-                                               <label>Max CPC Bid Amount</label>
-                                               <input type="text" name="cpcBid" class="form-control" />
+                                               <label>Max CPC Bid Amount (SAR)</label>
+                                               <input type="number" name="cpcBid" min="0" max="10" class="form-control" />
                                              </div>
                                          </div>
                                      </div>
@@ -446,11 +446,13 @@
                             </div>                     
                         </div>
                     </div>
-
-                    <?php  
-                    //if(isset($_REQUEST['debug'])){
-                    echo $adCustomerId.'-customer/<br/>'.$adCampaignId.'-campaign/<br/>'.$adGroupId.'-group/<br/>'.$adKeywordId.'-keyword/<br/>'.$searchAdId.'-ads/  '; 
-                    //} ?>
+                    <div class="" style="margin-top:200px;">
+                        <hr/>
+                        <?php  
+                        //if(isset($_REQUEST['debug'])){
+                        echo $adCustomerId.'-customer/<br/>'.$adCampaignId.'-campaign/<br/>'.$adGroupId.'-group/<br/>'.$adKeywordId.'-keyword/<br/>'.$searchAdId.'-ads/  '; 
+                        //} ?>
+                    </div>
 
             </div>          
         </div>
@@ -494,7 +496,7 @@
             });
 
             $('#addKeywords').click(function(e){
-                alert('szdada');
+                //alert('szdada');
 
             });
 

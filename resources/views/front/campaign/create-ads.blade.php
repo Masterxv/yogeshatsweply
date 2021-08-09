@@ -19,7 +19,7 @@
                         <div class="all-social-box-width">
 
                             <?php
-                            $allowedChannels = array('Twitter');
+                            $allowedChannels = array('Twitter','Google');
                             //$allowedChannels = array('Snapchat','Twitter','Facebook','YouTube');
                             $attribute = "'channel_id'";
                             if(isset($channel_list)){

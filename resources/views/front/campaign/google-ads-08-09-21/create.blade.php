@@ -2,8 +2,8 @@
     $userData = [];
     $userData = getLoggedUserData(); 
     ?>
-    
-<?php $__env->startSection('main_content'); ?>
+@extends('front.layout.dashboard-master')    
+@section('main_content')
 
 <style type="text/css">
     .diversion-section-line{position: relative;}
@@ -21,11 +21,11 @@
     <div class="content-wrapper">
         <div class="preview-ad-section ad-prive-details-bx-main google-preview-main">
             <div class="breadcrem-section">
-                <h2><i class="fa fa-google" style="color:black;" title="google"></i>Google Ad Details</h2>
+                <h2><i class="fa fa-google" title="google"></i>Google Ad Details</h2>
                 <div class="brea-bx">
                     <ul>
-                        <li><a href="<?php echo e(url('/')); ?>/user/dashboard">Home <i class="fal fa-angle-right"></i></a></li>                        
-                        <li><a href="<?php echo e(url('/')); ?>/user/campaign">google </a></li>                       
+                        <li><a href="{{url('/')}}/user/dashboard">Home <i class="fal fa-angle-right"></i></a></li>                        
+                        <li><a href="{{url('/')}}/user/campaign">google </a></li>                       
                     </ul>                
                 </div>
                 <div class="clearfix"></div>               
@@ -73,19 +73,19 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="nav nav-tabs nav-justified" id="myTab2" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link <?php echo e($accountSec); ?> "  data-toggle="tab" href="#account-sec" role="tab" aria-controls="account-sec" aria-selected="true" > <span>Create/Link Ads </span>Account</a>
+                                <a class="nav-link {{$accountSec}} "  data-toggle="tab" href="#account-sec" role="tab" aria-controls="account-sec" aria-selected="true" > <span>Create/Link Ads </span>Account</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?php echo e($campaignSec); ?>"  data-toggle="tab" href="#campaign-sec" role="tab" aria-controls="campaign-sec" aria-selected="true"><span>Create</span> Campaign</a>
+                                <a class="nav-link {{$campaignSec}}"  data-toggle="tab" href="#campaign-sec" role="tab" aria-controls="campaign-sec" aria-selected="true"><span>Create</span> Campaign</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?php echo e($groupSec); ?>"  data-toggle="tab" href="#adGroup-sec" role="tab" aria-controls="adGroup-sec" aria-selected="false"><span>Create</span> Ad Group</a> 
+                                <a class="nav-link {{$groupSec}}"  data-toggle="tab" href="#adGroup-sec" role="tab" aria-controls="adGroup-sec" aria-selected="false"><span>Create</span> Ad Group</a> 
                             </li>   
                              <li class="nav-item">
-                                <a class="nav-link <?php echo e($keywordSec); ?>"  data-toggle="tab" href="#keywords-sec" role="tab" aria-controls="keywords-sec" aria-selected="false"><span>Add</span> Keywords</a> 
+                                <a class="nav-link {{$keywordSec}}"  data-toggle="tab" href="#keywords-sec" role="tab" aria-controls="keywords-sec" aria-selected="false"><span>Add</span> Keywords</a> 
                             </li>  
                             <li class="nav-item">
-                                <a class="nav-link <?php echo e($adsSec); ?>"  data-toggle="tab" href="#searchad-sec" role="tab" aria-controls="searchad-sec" aria-selected="false"><span>Create</span> Search Ad</a> 
+                                <a class="nav-link {{$adsSec}}"  data-toggle="tab" href="#searchad-sec" role="tab" aria-controls="searchad-sec" aria-selected="false"><span>Create</span> Search Ad</a> 
                             </li>                     
                         </ul>
                         
@@ -93,7 +93,7 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content pt-1">
-                            <div class="tab-pane <?php echo e($accountSec); ?>" id="account-sec" role="tabpanel" aria-labelledby="home-tab-justified">
+                            <div class="tab-pane {{$accountSec}}" id="account-sec" role="tabpanel" aria-labelledby="home-tab-justified">
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6 diversion-section-line">
                                         <h3 style="margin-bottom: 30px">Link Google Ads Account</h3>
@@ -114,8 +114,8 @@
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <h3 style="margin-bottom: 30px">Create Google Ads Account</h3>
 
-                                    <form method="post" action="<?php echo e(url('/')); ?>/user/create-google-account">
-                                        <?php echo csrf_field(); ?>  
+                                    <form method="post" action="{{url('/')}}/user/create-google-account">
+                                        @csrf  
                                         <div class="info-main-section">
                                             <div class="info-main-header">
                                                 Customer/Account Name
@@ -151,10 +151,10 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane <?php echo e($campaignSec); ?>" id="campaign-sec" role="tabpanel" aria-labelledby="profile-tab-justified">
+                            <div class="tab-pane {{$campaignSec}}" id="campaign-sec" role="tabpanel" aria-labelledby="profile-tab-justified">
                                 <h2 style="margin: 0 0 30px 0;display: block;float: none;">Create Campaign</h2>
-                                <form method="post" action="<?php echo e(url('/')); ?>/user/create-google-campaign">
-                                    <?php echo csrf_field(); ?>                                            
+                                <form method="post" action="{{url('/')}}/user/create-google-campaign">
+                                    @csrf                                            
                                         <input type="hidden" name="customerId"  value="<?php echo $adCustomerId; ?>" />
                                     <div class="row">       
                                         <div class="col-sm-3 col-md-3 col-lg-3">
@@ -190,10 +190,10 @@
                                 </form>
 
                             </div>
-                            <div class="tab-pane <?php echo e($groupSec); ?>" id="adGroup-sec" role="tabpanel" aria-labelledby="messages-tab-justified">
+                            <div class="tab-pane {{$groupSec}}" id="adGroup-sec" role="tabpanel" aria-labelledby="messages-tab-justified">
                                 <h2 style="margin: 0 0 30px 0;display: block;float: none;">Create Ads Group</h2><br/>
-                                <form method="post" action="<?php echo e(url('/')); ?>/user/create-adgroup">
-                                    <?php echo csrf_field(); ?>
+                                <form method="post" action="{{url('/')}}/user/create-adgroup">
+                                    @csrf
 
                                     <div class="row">       
 
@@ -226,10 +226,10 @@
                                 
                             </div>  
 
-                            <div class="tab-pane <?php echo e($keywordSec); ?>" id="keywords-sec" role="tabpanel" aria-labelledby="messages-tab-justified">
+                            <div class="tab-pane {{$keywordSec}}" id="keywords-sec" role="tabpanel" aria-labelledby="messages-tab-justified">
                                  <h2 style="margin: 0 0 30px 0;display: block;float: none;">Add Keywords to Ad Group</h2><br/>
-                                <!-- <form method="post" action="<?php echo e(url('/')); ?>/user/create-adkeywords">
-                                    <?php echo csrf_field(); ?>
+                                <!-- <form method="post" action="{{url('/')}}/user/create-adkeywords">
+                                    @csrf
                                     <input type="hidden" name="customerId"  value="<?php echo $adCustomerId; ?>" />
                                     <input type="hidden" name="adGroupId"  value="<?php echo $adGroupId; ?>" />
 
@@ -257,8 +257,8 @@
                                 </form> -->
 
 
-        <form action="<?php echo e(url('/')); ?>/user/get-keyword-ideas" method="post" name="frm">  
-            <?php echo csrf_field(); ?>
+        <form action="{{url('/')}}/user/get-keyword-ideas" method="post" name="frm">  
+            @csrf
             <div class="form-group row">
                 <label for="customerId" class="col-sm-2 col-form-label">Keywords</label>
                 <div class="col-sm-4">
@@ -277,7 +277,7 @@
                     <input type="submit" class="btn btn-primary" value="Generate Keyword Ideas" />
                     <input type="hidden" name="opt" value="GenerateKeywordIdeas">
                     <input type="hidden" name="languageId" value="1019">
-                    <input type="hidden"  id="customerId" name="customerId"  value="<?php echo e($adCustomerId); ?>">
+                    <input type="hidden"  id="customerId" name="customerId"  value="{{$adCustomerId}}">
                     <input type="hidden" name="locationIds[]" value="1007788"><!-- Pune -->
                     <input type="hidden" name="locationIds[]" value="2682"> <!-- SA -->
                     <input type="hidden" name="locationIds[]" value="21152"><!-- US -->
@@ -296,8 +296,8 @@
         if(count($keywordSuggestionArr)>0){
         ?>
 
-        <form method="post" action="<?php echo e(url('/')); ?>/user/create-adkeywords" id="keywordFrm">
-            <?php echo csrf_field(); ?>
+        <form method="post" action="{{url('/')}}/user/create-adkeywords" id="keywordFrm">
+            @csrf
             <input type="hidden" name="customerId"  value="<?php echo $adCustomerId; ?>" />
             <input type="hidden" name="adGroupId"  value="<?php echo $adGroupId; ?>" />
                 <div class="form-group">
@@ -339,11 +339,11 @@
         </form>
 
                             </div> 
-                            <div class="tab-pane <?php echo e($adsSec); ?>" id="searchad-sec" role="tabpanel" aria-labelledby="messages-tab-justified">
+                            <div class="tab-pane {{$adsSec}}" id="searchad-sec" role="tabpanel" aria-labelledby="messages-tab-justified">
 
                                 <h2 style="margin: 0 0 30px 0;display: block;float: none;">Search Ad</h2><br/>
-                                <form method="post" action="<?php echo e(url('/')); ?>/user/create-search-ad">
-                                    <?php echo csrf_field(); ?>
+                                <form method="post" action="{{url('/')}}/user/create-search-ad">
+                                    @csrf
                                     <input type="hidden" name="customerId"  value="<?php echo $adCustomerId; ?>" />
                                     <input type="hidden" name="adGroupId"  value="<?php echo $adGroupId; ?>" />
                                         <!-- customerId adGroupId mainHeadline headline1 headline2 description1 description2 finalUrlPath1 finalUrlPath2 finalUrl -->
@@ -446,13 +446,11 @@
                             </div>                     
                         </div>
                     </div>
-                    <div class="" style="margin-top:200px;">
-                        <hr/>
-                        <?php  
-                        //if(isset($_REQUEST['debug'])){
-                        echo $adCustomerId.'-customer/<br/>'.$adCampaignId.'-campaign/<br/>'.$adGroupId.'-group/<br/>'.$adKeywordId.'-keyword/<br/>'.$searchAdId.'-ads/  '; 
-                        //} ?>
-                    </div>
+
+                    <?php  
+                    //if(isset($_REQUEST['debug'])){
+                    echo $adCustomerId.'-customer/<br/>'.$adCampaignId.'-campaign/<br/>'.$adGroupId.'-group/<br/>'.$adKeywordId.'-keyword/<br/>'.$searchAdId.'-ads/  '; 
+                    //} ?>
 
             </div>          
         </div>
@@ -464,9 +462,9 @@
             if(attribute=="adCustomerId"){
                 sessionValue = $('#linkCustomerId').val();
             }
-            var token    = "<?php echo e(csrf_token()); ?>";
+            var token    = "{{csrf_token()}}";
             $.ajax({
-                url: "<?php echo e(url('/')); ?>/set_session_attribute",
+                url: "{{url('/')}}/set_session_attribute",
                 type: 'post',
                 data: {attribute:attribute,sessionValue:sessionValue,_token:token},
                 success: function(data){
@@ -599,7 +597,6 @@
     }
     </script>
 
-    <link rel="stylesheet" type="text/css" href="<?php echo e(url('/')); ?>/public/assets/css/bootstrap-datepicker.min.css">
-    <script src="<?php echo e(url('/')); ?>/public/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('front.layout.dashboard-master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sweply\resources\views/front/campaign/google-ads/create.blade.php ENDPATH**/ ?>
+    <link rel="stylesheet" type="text/css" href="{{url('/')}}/public/assets/css/bootstrap-datepicker.min.css">
+    <script src="{{url('/')}}/public/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+@endsection
